@@ -1,0 +1,5 @@
+ADLISTS = "data/adlists.json"
+ADLIST_OUTPUT = "output/adlist.txt"
+OLD_ADLIST = "data/old_adlist.txt"
+WHITELISTS = "data/whitelists.json"
+WHITELIST_OUTPUT = "output/whitelist.txt"

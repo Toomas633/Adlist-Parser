@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adlist-parser"
+version = "1.0.0"
+description = "Fetch, normalize and merge adlists into domain-only outputs for DNS blockers"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Toomas633" }
+]
+keywords = ["adblock", "pi-hole", "adguard", "domains", "filter", "abp"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Toomas633/Adlist-Parser"
+
+[project.scripts]
+adlist-parser = "adparser.cli:main"
+
+[tool.setuptools]
+packages = ["adparser"]
+include-package-data = true
