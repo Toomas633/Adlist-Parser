@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Adlist-Parser",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"adparser"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Tests: Pytest (coverage)",
+			"type": "shell",
+			"command": "D:/GitHub/Adlist-Parser/.venv/Scripts/python.exe",
+			"args": [
+				"-m",
+				"pytest"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$pytest"
+			],
+			"group": "test"
+		},
+		{
+			"label": "Lint: Pylint (report)",
+			"type": "shell",
+			"command": "pwsh",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"D:/GitHub/Adlist-Parser/.venv/Scripts/python.exe -m pylint adparser --output-format=text | Out-File -FilePath pylint-report.txt -Encoding utf8; if ($LASTEXITCODE -ne 0) { Write-Host \"Pylint completed with issues (non-zero exit), report saved to pylint-report.txt\"; exit 0 }"
+			],
+			"isBackground": false,
+			"group": "test"
+		}
+	]
+}

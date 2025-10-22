@@ -1,0 +1,34 @@
+{
+  // Enable format on save
+  "editor.formatOnSave": true,
+
+  // Python-specific settings
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+
+  // Black formatter settings (recommended for Python)
+  "black-formatter.args": ["--line-length=88", "--skip-string-normalization"],
+
+  // Alternative: if you prefer autopep8
+  // "[python]": {
+  //     "editor.defaultFormatter": "ms-python.autopep8"
+  // },
+
+  // Pylint/Flake8 settings for linting
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--max-line-length=88", "--ignore=E203,W503"],
+  "sonarlint.connectedMode.project": {
+    "connectionId": "toomas633",
+    "projectKey": "Toomas633_Adlist-Parser"
+  },
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}
