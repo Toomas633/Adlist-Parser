@@ -229,6 +229,8 @@ android.clients.google.com
 analytics.google.com
 activity.windows.com
 79423.analytics.edgekey.net
+logger.traveltowngame.net
+huggingface.co
 [a-z].thumbs.redditmedia.com
 (\.|^)xmrig\.com$
 (\.|^)xboxlive\.com$
