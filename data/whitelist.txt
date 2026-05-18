@@ -278,3 +278,7 @@ huggingface.co
 (\.|^)bit\.ly$
 (\.|^)aria\.microsoft\.com$
 (\.|^)\.policies\.live\.net$
+claude.ai
+assets.minutemediacdn.com
+images2.minutemediacdn.com
+in.appcenter.ms
