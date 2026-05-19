@@ -1,0 +1,55 @@
+name: "Update Adlists"
+
+on:
+  schedule:
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Update Adlists
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+
+      - name: Run adparser
+        run: python -m adparser | tee /tmp/adparser-output.txt
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo '```'
+            sed 's/\x1b\[[0-9;]*[A-Za-z]//g' /tmp/adparser-output.txt \
+              | tr '\r' '\n' \
+              | sed -n '/^=\{2,\}/,$p' \
+              | grep -v '^[[:space:]]*$'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit updated lists and cache
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/ cache/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update adlists [$(date -u '+%Y-%m-%d')]"
+            git push origin main
+          fi
