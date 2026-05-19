@@ -3,6 +3,7 @@
 This file merges the former test_content.py, test_content_more.py, and
 test_content_helpers.py to keep related tests in one place.
 """
+# pylint: disable=protected-access
 
 from pytest import mark
 
@@ -11,6 +12,7 @@ from adparser.models import Source
 
 
 def test_normalize_lines_split_basic():
+    """Hosts entries, ABP rules, wildcards, and regexes are split into the correct buckets."""
     lines = [
         "# comment should be skipped",
         "0.0.0.0 example.com alias.local",
@@ -41,6 +43,7 @@ def test_normalize_lines_split_basic():
 
 
 def test_generate_list_merges_and_extracts_auxiliary():
+    """generate_list() collects domains and ABP/regex rules across multiple sources."""
     src1 = Source(raw="local1")
     src2 = Source(raw="local2")
     lines1 = [
@@ -74,6 +77,7 @@ def test_generate_list_merges_and_extracts_auxiliary():
 
 
 def test_separate_blocklist_whitelist_move_and_dedupe():
+    """@@|| entries move from adlist to whitelist; shadowed subdomains are removed."""
     adlist = [
         "example.com",
         "||ads.example^",
@@ -100,6 +104,7 @@ def test_separate_blocklist_whitelist_move_and_dedupe():
 
 
 def test_abp_wildcard_and_prefix_normalization():
+    """ABP wildcard patterns and pipe prefixes are normalised correctly."""
     src = Source(raw="mixed")
     lines = [
         "||*cdn.site^",
@@ -123,6 +128,7 @@ def test_abp_wildcard_and_prefix_normalization():
 
 
 def test_regex_conversion_variants():
+    """Regex patterns are converted to ABP rules or discarded based on complexity."""
     src = Source(raw="regex")
     lines = [
         "/(^|\\.)ex\\.tld$/",
@@ -143,6 +149,7 @@ def test_regex_conversion_variants():
 
 
 def test_idna_domain_and_wildcard_handling():
+    """IDN labels are punycode-encoded; invalid labels land in non_domains."""
     lines = [
         "täst.de",
         "*.münich.de",
@@ -156,6 +163,7 @@ def test_idna_domain_and_wildcard_handling():
 
 
 def test_separate_handles_pipe_and_options_and_move_to_whitelist():
+    """ABP options are stripped; pipe-prefixed URLs are cleaned; @@|| moves to whitelist."""
     adlist = [
         "||https://user@sub.host:8443/path^$third-party",
         "||sub.host^",
@@ -175,6 +183,7 @@ def test_separate_handles_pipe_and_options_and_move_to_whitelist():
 
 
 def test_filter_covered_adds_caret_and_keeps_regex_like():
+    """_filter_covered appends ^ to ABP entries missing it and keeps regex-like entries."""
     entries = {"||ads.example", "a.b$", "(^|\\.)keep.example$"}
     out = content._filter_covered(entries, "||")
 
@@ -192,6 +201,7 @@ def test_filter_covered_adds_caret_and_keeps_regex_like():
     ],
 )
 def test_maybe_extract_domain_none(value):
+    """Invalid domain strings return None from _maybe_extract_domain."""
     assert content._maybe_extract_domain(value) is None
 
 
@@ -205,6 +215,7 @@ def test_maybe_extract_domain_none(value):
     ],
 )
 def test_is_regex_like_entry(value, expected):
+    """_is_regex_like_entry detects regex-like patterns by delimiter/anchor presence."""
     assert content._is_regex_like_entry(value) is expected
 
 
@@ -217,6 +228,7 @@ def test_is_regex_like_entry(value, expected):
     ],
 )
 def test_normalize_abp_wildcards_helper_and_prefix(raw, expected):
+    """_normalize_abp_wildcards handles pipe-wrapping, leading wildcard, and TLD wildcard."""
     assert content._normalize_abp_wildcards(raw) == expected
 
 
@@ -228,6 +240,7 @@ def test_normalize_abp_wildcards_helper_and_prefix(raw, expected):
     ],
 )
 def test_unwrap_slash_delimited_helper(value, expected):
+    """_unwrap_slash_delimited strips surrounding slashes when present."""
     assert content._unwrap_slash_delimited(value) == expected
 
 
@@ -236,6 +249,7 @@ def test_unwrap_slash_delimited_helper(value, expected):
     [content.DOMAIN_PREFIX_CAPTURE, content.DOMAIN_PREFIX_NOCAPTURE],
 )
 def test_strip_leading_domain_prefix_variants(prefix):
+    """Both capturing and non-capturing domain anchors are stripped correctly."""
     assert (
         content._strip_leading_domain_prefix(prefix + "example\\.com")
         == "example\\.com"
@@ -250,10 +264,12 @@ def test_strip_leading_domain_prefix_variants(prefix):
     ],
 )
 def test_convert_regex_to_abp_prefix_stripping(pattern, expected):
+    """Simple anchored Pi-hole regex patterns are converted to ABP block rules."""
     assert content._convert_regex_to_abp(pattern) == expected
 
 
 def test_to_domain_abp_invalid():
+    """_to_domain_abp returns None for an invalid domain label."""
     assert content._to_domain_abp("-bad-.com") is None
 
 
@@ -262,23 +278,28 @@ def test_to_domain_abp_invalid():
     [("domain^", "abp"), ("(foo)", "regex"), ("##.ad", None)],
 )
 def test_categorize_entry_variants_helper(value, expected):
+    """_categorize_entry classifies ABP rules, regex patterns, and unsupported entries."""
     assert content._categorize_entry(value) == expected
 
 
 def test_extract_domains_from_hosts_none_and_leading_ip_empty():
+    """Hosts-line with non-standard IP returns None; bare IP with no domain returns []."""
     assert content._extract_domains_from_hosts("192.168.1.1 foo") is None
     assert content._extract_domains_from_leading_ip("0.0.0.0   ") == []
 
 
 def test_is_valid_domain_part_star_label():
+    """A wildcard (*) label is accepted as a valid domain part."""
     assert content._is_valid_domain_part("a.*.b") is True
 
 
 def test_ancestors_returns_chain():
+    """_ancestors yields the entry itself plus each parent domain up to the TLD."""
     assert content._ancestors("a.b.c") == ["a.b.c", "b.c", "c"]
 
 
 def test_filter_covered_parent_rule_covers_subdomain():
+    """Subdomain entries are removed when a parent ABP rule is present."""
     entries = {"||example.com^", "sub.example.com"}
     out = content._filter_covered(entries, "||")
 
@@ -286,6 +307,7 @@ def test_filter_covered_parent_rule_covers_subdomain():
 
 
 def test_process_entry_preserve_abp_invalid_pipe_entry():
+    """Invalid ABP entries with bad domain labels are silently discarded."""
     block, white = set(), set()
 
     content._process_entry_preserve_abp("||-bad-.com^", False, block, white)

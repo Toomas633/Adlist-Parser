@@ -9,6 +9,7 @@ from adparser import cli
 
 
 def test_cli_smoke_runs_and_writes_outputs(tmp_path: Path, monkeypatch):
+    """Full pipeline smoke test: verify outputs are written with expected content."""
     data_dir = tmp_path / "data"
     out_dir = tmp_path / "output"
     data_dir.mkdir()

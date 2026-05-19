@@ -129,7 +129,7 @@ def _extract_host_from_abp(entry: str) -> Optional[tuple]:
         host = m.group(2)
         if host.startswith('://'):
             host = host[3:]
-        if host.startswith('http://') or host.startswith('https://'):
+        if host.startswith(('http://', 'https://')):
             host = host.split('://', 1)[-1]
         host = host.split('/')[0]
         host = host.split('@')[-1].split(':')[0]
@@ -599,7 +599,7 @@ def _handle_abp_like(
             return True
         entry = rest
 
-    if entry.startswith('||') or entry.startswith('|'):
+    if entry.startswith(('||', '|')):
         return _handle_pipe_entry(entry, to_whitelist, blocklist_set, whitelist_set)
 
     return False

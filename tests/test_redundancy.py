@@ -1,4 +1,5 @@
 """Tests for redundancy analysis utilities in adparser.redundancy."""
+# pylint: disable=protected-access
 
 from asyncio import run, sleep
 from typing import cast
@@ -9,6 +10,7 @@ from adparser.status import StatusSpinner
 
 
 def test_abp_prefix_and_key_and_collect():
+    """Verify ABP prefix detection, key extraction, and remote domain collection."""
     entry = '||https://user@HOST:8080/path^$opt'
     entries = ['||example.com^', '@@||allowed.example^', 'plain']
 
@@ -23,6 +25,7 @@ def test_abp_prefix_and_key_and_collect():
 
 
 def test_remote_union_and_iter_local_entries_and_ancestors():
+    """_remote_union excludes local sources; _iter_local_entries yields only locals."""
     s1 = {'a', 'b'}
     s2 = {'c'}
     sources = {'lab1': s1, 'lab2': s2}
@@ -38,6 +41,7 @@ def test_remote_union_and_iter_local_entries_and_ancestors():
 
 
 def test_entry_covered_by_remote_variants():
+    """_entry_covered_by_remote handles ABP rules, plain domains, and wildcards."""
     remote = {'example.com', 'other.com'}
 
     assert redundancy._entry_covered_by_remote('||sub.example.com^', remote) is True
@@ -47,6 +51,7 @@ def test_entry_covered_by_remote_variants():
 
 
 def test_covered_entries_and_compute_duplicates_and_build_sets():
+    """Covered entries, duplicate source groups, and per-source sets are computed correctly."""
     entry_set = {'a', 'b', 'c'}
     union_remote = {'b', 'z'}
     remote_abp = {'x'}
@@ -68,6 +73,7 @@ def test_covered_entries_and_compute_duplicates_and_build_sets():
 
 
 def test_compute_local_file_redundancy_and_format_and_generate_messages():
+    """Local file coverage, source label formatting, and report messages work end-to-end."""
     per_source_sets = {
         'r1': {'a', 'b', 'c'},
         'l1': {'b', 'd', 'e'},
@@ -98,6 +104,7 @@ def test_compute_local_file_redundancy_and_format_and_generate_messages():
 
 
 def test_exclude_and_is_excluded_helpers(tmp_path):
+    """is_excluded_src and is_excluded_label correctly identify the adlist output path."""
     abs_path = str(tmp_path / 'output' / 'adlist.txt')
     s2 = Source('other', resolved_path=abs_path)
 
@@ -114,6 +121,7 @@ def test_exclude_and_is_excluded_helpers(tmp_path):
 
 
 def test_generate_redundancy_report_async():
+    """generate_redundancy_report() returns an empty list and updates spinner status."""
     class SpinnerStub:
         """Minimal stub with the same interface as StatusSpinner for tests."""
 
@@ -121,11 +129,13 @@ def test_generate_redundancy_report_async():
             self.updated = None
 
         async def show_progress(self, message, operation):
+            """Delegate directly to the operation without displaying a spinner."""
             del message
             await sleep(0)
             return await operation
 
         def update_status(self, text):
+            """Record the last status text for assertion in tests."""
             self.updated = text
 
     spinner: StatusSpinner = cast(StatusSpinner, SpinnerStub())

@@ -9,6 +9,7 @@ from adparser.models import Source
 
 
 def test_load_sources_various_json_shapes(tmp_path: Path):
+    """load_sources accepts array JSON, dict JSON, and resolves local paths."""
     p_list = tmp_path / "lists.json"
     p_list.write_text(
         dumps(
@@ -52,6 +53,7 @@ def test_load_sources_various_json_shapes(tmp_path: Path):
 
 
 def test_fetcher_reads_local_file(tmp_path: Path):
+    """fetch() reads a local file and delivers lines to results; progress callback is invoked."""
     p = tmp_path / "sample.txt"
     p.write_text("one\n# comment\ntwo\n", encoding="utf-8")
 

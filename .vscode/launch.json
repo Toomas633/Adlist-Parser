@@ -50,7 +50,7 @@
       "module": "pylint",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
-      "args": ["adparser"],
+      "args": ["adparser", "tests"],
       "justMyCode": false
     }
   ]

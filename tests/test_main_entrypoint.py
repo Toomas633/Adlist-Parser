@@ -45,12 +45,14 @@ def _run_module_and_capture():
 
 
 def test_package_entrypoint_exits_with_cli_code_zero():
+    """Running the package as __main__ raises SystemExit(0) when cli.main() returns 0."""
     with _with_fake_cli(return_code=0):
         exit_exc = _run_module_and_capture()
     assert exit_exc.code == 0
 
 
 def test_package_entrypoint_propagates_nonzero_exit_code():
+    """Non-zero return from cli.main() is propagated as the SystemExit code."""
     with _with_fake_cli(return_code=2):
         exit_exc = _run_module_and_capture()
     assert exit_exc.code == 2
