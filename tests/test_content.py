@@ -4,7 +4,6 @@ This file merges the former test_content.py, test_content_more.py, and
 test_content_helpers.py to keep related tests in one place.
 """
 
-# pylint: disable=missing-function-docstring, protected-access
 from pytest import mark
 
 from adparser import content

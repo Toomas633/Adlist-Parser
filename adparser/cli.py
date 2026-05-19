@@ -195,9 +195,19 @@ async def _generate_whitelist(spinner: StatusSpinner):
 async def main() -> int:
     """Run both pipelines concurrently and print a summary.
 
+    Pass ``--remove-duplicates`` to run the duplicate/coverage removal
+    pipeline on ``data/blacklist.txt`` and ``data/whitelist.txt`` instead.
+
     Returns:
         Process exit code (0 on success).
     """
+    import sys
+
+    if "--remove-duplicates" in sys.argv:
+        from .duplicates import main as _remove_main
+
+        return await _remove_main()
+
     start_time = time()
 
     print("🚀 Starting Adlist-Parser...")

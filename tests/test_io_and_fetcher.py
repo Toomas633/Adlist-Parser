@@ -1,6 +1,5 @@
 """Tests for adparser.io and adparser.fetcher modules."""
 
-# pylint: disable=missing-function-docstring
 from json import dumps
 from pathlib import Path
 
@@ -67,7 +66,7 @@ def test_fetcher_reads_local_file(tmp_path: Path):
 
     assert not failed
     assert len(results) == 1
-    (returned_src, lines) = results[0]
+    returned_src, lines = results[0]
     assert returned_src.raw == src.raw
     assert lines == ["one", "# comment", "two"]
     assert progress_updates[-1][0] == 1 and progress_updates[-1][1] == 1

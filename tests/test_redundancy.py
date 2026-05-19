@@ -1,6 +1,5 @@
 """Tests for redundancy analysis utilities in adparser.redundancy."""
 
-# pylint: disable=missing-function-docstring, protected-access
 from asyncio import run, sleep
 from typing import cast
 

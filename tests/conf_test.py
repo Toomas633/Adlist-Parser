@@ -3,7 +3,6 @@
 These tests verify that test discovery and environment wiring behave as expected.
 """
 
-# pylint: disable=missing-function-docstring
 from pathlib import Path
 from sys import path
 

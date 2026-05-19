@@ -1,6 +1,5 @@
 """Tests for package import and __main__ entrypoint behavior."""
 
-# pylint: disable=missing-function-docstring
 from asyncio import sleep
 from runpy import run_module
 from sys import modules

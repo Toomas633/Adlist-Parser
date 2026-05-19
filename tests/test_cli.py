@@ -1,6 +1,5 @@
 """Tests for the CLI entrypoints and argument handling."""
 
-# pylint: disable=missing-function-docstring
 from asyncio import run
 from json import dumps
 from pathlib import Path
