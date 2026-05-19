@@ -14,6 +14,7 @@ ADLIST_OUTPUT = "output/adlist.txt"
 OLD_ADLIST = "data/old_adlist.txt"
 WHITELISTS = "data/whitelists.json"
 WHITELIST_OUTPUT = "output/whitelist.txt"
+FETCH_CACHE_DIR = "cache"
 
 COMMENT_LINE_RE = re_compile(r"^\s*(#|!|//|;)")
 INLINE_COMMENT_RE = re_compile(r"\s+(#|!|//|;).*$")

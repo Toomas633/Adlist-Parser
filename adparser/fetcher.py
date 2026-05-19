@@ -6,11 +6,13 @@ URLs and local files.
 
 from concurrent import futures
 from contextlib import closing
-from socket import timeout
+from hashlib import sha256
+from pathlib import Path
 from sys import version
 from typing import Callable, List, Optional, Tuple
 from urllib import parse, request
 
+from .constants import FETCH_CACHE_DIR
 from .models import Source
 
 USER_AGENT = (
@@ -52,6 +54,35 @@ def fetch(
     return results, failed_sources
 
 
+def _cache_path(url: str) -> Path:
+    """Return the cache file path for a URL, keyed by its SHA-256 hash."""
+    key = sha256(url.encode()).hexdigest()
+    return Path(FETCH_CACHE_DIR) / f"{key}.txt"
+
+
+def _save_to_cache(url: str, text: str) -> None:
+    """Persist fetched content to the cache (non-fatal on write errors)."""
+    try:
+        cache_dir = Path(FETCH_CACHE_DIR)
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        tmp = _cache_path(url).with_suffix(".tmp")
+        tmp.write_text(text, encoding="utf-8")
+        tmp.replace(_cache_path(url))
+    except OSError:
+        pass
+
+
+def _load_from_cache(url: str) -> Optional[str]:
+    """Return cached content for a URL, or None if not cached."""
+    try:
+        path = _cache_path(url)
+        if path.exists():
+            return path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        pass
+    return None
+
+
 def _fetch_one(source: Source) -> Tuple[Source, List[str]]:
     """Fetch or read one source and return its split lines.
 
@@ -65,6 +96,7 @@ def _fetch_one(source: Source) -> Tuple[Source, List[str]]:
     try:
         if source.is_url():
             text = _http_fetch(source.raw)
+            _save_to_cache(source.raw, text)
         elif source.is_file_url():
             path = request.url2pathname(parse.urlparse(source.raw).path)
             text = _read_file(path)
@@ -73,11 +105,11 @@ def _fetch_one(source: Source) -> Tuple[Source, List[str]]:
             text = _read_file(path)
         lines = text.splitlines()
         return source, lines
-    except (
-        timeout,
-        OSError,
-        ValueError,
-    ) as e:
+    except (OSError, ValueError) as e:
+        if source.is_url():
+            cached = _load_from_cache(source.raw)
+            if cached is not None:
+                return source, cached.splitlines()
         return source, [f"# ERROR fetching {source}: {e}"]
 
 
