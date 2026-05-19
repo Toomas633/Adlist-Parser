@@ -1,6 +1,6 @@
 ################################################################
 # abuse.ch URLhaus Host file                                   #
-# Last updated: 2026-05-19 12:25:12 (UTC)                      #
+# Last updated: 2026-05-19 12:34:22 (UTC)                      #
 #                                                              #
 # Terms Of Use: https://urlhaus.abuse.ch/api/                  #
 # For questions please contact urlhaus [at] abuse.ch           #
@@ -91,7 +91,6 @@
 127.0.0.1	catbaparadisehotel.com.vn
 127.0.0.1	ccleaner.gl
 127.0.0.1	cdaonline.com.ar
-127.0.0.1	cdn.file6.goodid.com
 127.0.0.1	celebratingseniors.net
 127.0.0.1	chat-server.maverickpreviews.com
 127.0.0.1	checkfivem.com
@@ -529,7 +528,6 @@
 127.0.0.1	www.astenterprises.com.pk
 127.0.0.1	www.automobile-bk.de
 127.0.0.1	www.backupallfresh2030.com
-127.0.0.1	www.benshamcentre.co.uk
 127.0.0.1	www.blackhattoolz.com
 127.0.0.1	www.bratusferramentas.grupomoltz.com.br
 127.0.0.1	www.chenwangqiao.com
@@ -585,4 +583,4 @@
 127.0.0.1	ziti-multicooker-hacks.garden
 127.0.0.1	zoneday-green-house-oper-center.garden
 127.0.0.1	zycdjz.com
-# Number of entries: 579
+# Number of entries: 577
