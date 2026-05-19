@@ -21,6 +21,10 @@ class StatusSpinner:
         """Animate a spinner while awaiting the given async operation."""
         task = create_task(operation)
 
+        if not stdout.isatty():
+            print(f'⚡ {message}', flush=True)
+            return await task
+
         base_message = message
         self.current_progress = None
         self._update_line(f'⚡ {base_message}')
@@ -45,6 +49,9 @@ class StatusSpinner:
 
     def update_status(self, message: str):
         """Replace the current line with the given message."""
+        if not stdout.isatty():
+            print(message, flush=True)
+            return
         self._update_line(message)
 
     def _update_line(self, message: str):
@@ -63,6 +70,10 @@ class StatusSpinner:
 
     def clear_and_print(self, final_message: str = ""):
         """Clear the spinner line and optionally print a final message."""
+        if not stdout.isatty():
+            if final_message:
+                print(final_message, flush=True)
+            return
         if final_message:
             self._update_line(final_message)
         stdout.flush()
@@ -78,17 +89,20 @@ class GroupedStatusDisplay:
 
     def allocate_line(self) -> StatusSpinner:
         """Allocate a new status line and return its spinner."""
-        print()
+        if stdout.isatty():
+            print()
         if not self.initialized:
             self.initialized = True
 
         relative_line = self.lines_allocated - self.initial_offset + 1
         self.lines_allocated += 1
 
-        return StatusSpinner(line_number=relative_line)
+        return StatusSpinner(line_number=relative_line if stdout.isatty() else 0)
 
     def finalize(self):
         """Move the cursor to the end after all operations complete."""
+        if not stdout.isatty():
+            return
         total_lines = self.lines_allocated - self.initial_offset
         if total_lines > 0:
             stdout.write(f'\033[{total_lines}B\r')
