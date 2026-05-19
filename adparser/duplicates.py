@@ -217,6 +217,7 @@ async def _process_list(
 
 
 async def main() -> int:
+    """Run duplicate removal for adlist and whitelist, then report conflicts."""
     status = GroupedStatusDisplay()
     adlist_spinner = status.allocate_line()
     whitelist_spinner = status.allocate_line()

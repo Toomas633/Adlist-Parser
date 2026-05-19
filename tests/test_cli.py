@@ -71,7 +71,7 @@ def test_cli_check_conflicts_argument(tmp_path, monkeypatch, capsys):
     wl.write_text("conflict.com\n", encoding="utf-8")
     monkeypatch.setattr(conflicts_mod, "BLACKLIST_PATH", bl)
     monkeypatch.setattr(conflicts_mod, "WHITELIST_PATH", wl)
-    monkeypatch.setattr("sys.argv", ["adparser", "--check-conflicts"])
+    monkeypatch.setattr(cli, "argv", ["adparser", "--check-conflicts"])
 
     code = run(cli.main())
 
@@ -89,7 +89,7 @@ def test_cli_check_conflicts_no_conflicts(tmp_path, monkeypatch, capsys):
     wl.write_text("allow.com\n", encoding="utf-8")
     monkeypatch.setattr(conflicts_mod, "BLACKLIST_PATH", bl)
     monkeypatch.setattr(conflicts_mod, "WHITELIST_PATH", wl)
-    monkeypatch.setattr("sys.argv", ["adparser", "--check-conflicts"])
+    monkeypatch.setattr(cli, "argv", ["adparser", "--check-conflicts"])
 
     code = run(cli.main())
 

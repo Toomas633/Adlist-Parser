@@ -1,56 +1,57 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Adlist Parser (module)",
+      "name": "Adlist Parser",
       "type": "debugpy",
       "request": "launch",
       "module": "adparser",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "args": [],
-      "justMyCode": true,
-      "stopOnEntry": false,
-      "python": "${command:python.interpreterPath}"
+      "justMyCode": false
     },
     {
-      "name": "Debug Adlist Parser (module)",
+      "name": "Adlist Parser: Remove Duplicates",
       "type": "debugpy",
       "request": "launch",
       "module": "adparser",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
-      "args": [],
-      "justMyCode": false,
-      "stopOnEntry": false,
-      "python": "${command:python.interpreterPath}"
+      "args": ["--remove-duplicates"],
+      "justMyCode": false
     },
     {
-      "name": "Run Adlist Parser",
+      "name": "Adlist Parser: Check Conflicts",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/adlist_parser.py",
+      "module": "adparser",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "args": ["--check-conflicts"],
+      "justMyCode": false
+    },
+    {
+      "name": "Tests with Coverage",
+      "type": "debugpy",
+      "request": "launch",
+      "noDebug": true,
+      "module": "pytest",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
       "args": [],
-      "justMyCode": true,
-      "stopOnEntry": false,
-      "python": "${command:python.interpreterPath}"
+      "justMyCode": false
     },
     {
-      "name": "Debug Adlist Parser",
+      "name": "Pylint: adparser",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/adlist_parser.py",
+      "noDebug": true,
+      "module": "pylint",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
-      "args": [],
-      "justMyCode": false,
-      "stopOnEntry": false,
-      "python": "${command:python.interpreterPath}"
+      "args": ["adparser"],
+      "justMyCode": false
     }
   ]
 }
