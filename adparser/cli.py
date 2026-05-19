@@ -8,15 +8,18 @@ from __future__ import annotations
 
 from asyncio import gather, to_thread
 from datetime import datetime, timezone
+from sys import argv
 from time import time
 from types import SimpleNamespace
 from typing import List, Tuple
 
 from .constants import ADLIST_OUTPUT, ADLISTS, WHITELIST_OUTPUT, WHITELISTS
 from .content import generate_list, separate_blocklist_whitelist
+from .duplicates import main as _remove_main
 from .fetcher import fetch
 from .io import load_sources, write_output
 from .models import Source
+from .conflicts import report_conflicts
 from .redundancy import generate_redundancy_report
 from .reporting import generate_report
 from .status import GroupedStatusDisplay, StatusSpinner
@@ -197,16 +200,19 @@ async def main() -> int:
 
     Pass ``--remove-duplicates`` to run the duplicate/coverage removal
     pipeline on ``data/blacklist.txt`` and ``data/whitelist.txt`` instead.
+    Pass ``--check-conflicts`` to only run conflict detection between
+    ``data/blacklist.txt`` and ``data/whitelist.txt``.
 
     Returns:
         Process exit code (0 on success).
     """
-    import sys
 
-    if "--remove-duplicates" in sys.argv:
-        from .duplicates import main as _remove_main
-
+    if "--remove-duplicates" in argv:
         return await _remove_main()
+
+    if "--check-conflicts" in argv:
+        report_conflicts()
+        return 0
 
     start_time = time()
 
@@ -274,6 +280,8 @@ async def main() -> int:
         ),
         start_time,
     )
+
+    report_conflicts()
 
     return 0
 

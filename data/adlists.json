@@ -44,7 +44,6 @@
     "https://raw.githubusercontent.com/StevenBlack/hosts/master/extensions/fakenews/hosts",
     "https://raw.githubusercontent.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist/main/noai_hosts.txt",
     "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt",
-    "https://lists.cyberhost.uk/malware.txt",
-    "https://urlhaus.abuse.ch/downloads/hostfile/"
+    "https://lists.cyberhost.uk/malware.txt"
   ]
 }

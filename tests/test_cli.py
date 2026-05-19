@@ -4,6 +4,7 @@ from asyncio import run
 from json import dumps
 from pathlib import Path
 
+import adparser.conflicts as conflicts_mod
 from adparser import cli
 
 
@@ -60,3 +61,38 @@ allow-plain.example
     assert "example.com" in ad_out
     assert "@@||allow.example^" in wl_out
     assert "allow-plain.example" in wl_out
+
+
+def test_cli_check_conflicts_argument(tmp_path, monkeypatch, capsys):
+    """--check-conflicts runs only conflict detection and exits 0."""
+    bl = tmp_path / "blacklist.txt"
+    wl = tmp_path / "whitelist.txt"
+    bl.write_text("conflict.com\n", encoding="utf-8")
+    wl.write_text("conflict.com\n", encoding="utf-8")
+    monkeypatch.setattr(conflicts_mod, "BLACKLIST_PATH", bl)
+    monkeypatch.setattr(conflicts_mod, "WHITELIST_PATH", wl)
+    monkeypatch.setattr("sys.argv", ["adparser", "--check-conflicts"])
+
+    code = run(cli.main())
+
+    assert code == 0
+    out = capsys.readouterr().out
+    assert "CONFLICT" in out
+    assert "conflict.com" in out
+
+
+def test_cli_check_conflicts_no_conflicts(tmp_path, monkeypatch, capsys):
+    """--check-conflicts prints clean message when nothing overlaps."""
+    bl = tmp_path / "blacklist.txt"
+    wl = tmp_path / "whitelist.txt"
+    bl.write_text("block.com\n", encoding="utf-8")
+    wl.write_text("allow.com\n", encoding="utf-8")
+    monkeypatch.setattr(conflicts_mod, "BLACKLIST_PATH", bl)
+    monkeypatch.setattr(conflicts_mod, "WHITELIST_PATH", wl)
+    monkeypatch.setattr("sys.argv", ["adparser", "--check-conflicts"])
+
+    code = run(cli.main())
+
+    assert code == 0
+    out = capsys.readouterr().out
+    assert "No conflicts" in out

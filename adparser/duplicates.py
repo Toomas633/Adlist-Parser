@@ -15,6 +15,7 @@ from asyncio import to_thread
 from pathlib import Path
 from typing import Iterable, List
 
+from .conflicts import report_conflicts
 from .content import _convert_regex_to_abp, normalize_lines_split
 from .fetcher import fetch
 from .io import load_sources
@@ -237,5 +238,7 @@ async def main() -> int:
         ),
     )
     status.finalize()
+
+    report_conflicts()
 
     return 0
