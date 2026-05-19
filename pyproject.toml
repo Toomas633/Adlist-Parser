@@ -26,7 +26,7 @@ test = "pytest:console_main"
 pylint = "pylint:run_pylint"
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0", "pytest-cov>=4.1", "coverage[toml]>=7.5", "pylint>=3.2"]
+dev = ["pytest>=9.0", "pytest-cov>=7.1", "coverage[toml]>=7.14", "pylint>=4.0"]
 
 [tool.setuptools]
 packages = ["adparser"]
