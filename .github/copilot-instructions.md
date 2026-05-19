@@ -35,7 +35,10 @@ Quick rules (TL;DR for AI changes)
 - `status.py`: grouped spinners; `spinner.show_progress()` around async ops
 - `redundancy.py`: duplicate/overlap analysis (incl. local-file coverage)
 - `reporting.py`: emoji summary; wide-char-safe width calc
-- `constants.py`: default `data/` inputs and `output/` paths
+- `constants.py`: default `data/` inputs, `output/` paths, and `cache/` dir
+- `models.py`: `Source` dataclass (`raw`, `resolved_path`, `is_url()`, `is_file_url()`)
+- `conflicts.py`: detects entries present in both `data/blacklist.txt` and `data/whitelist.txt`; canonical comparison via `_convert_regex_to_abp`
+- `duplicates.py`: `--remove-duplicates` pipeline; removes local entries already covered by remote sources or broader rules within each file
 
 ### Stable contracts (use as-is)
 
@@ -55,8 +58,8 @@ Quick rules (TL;DR for AI changes)
 
 ### Conventions & workflows
 
-- Run: `python -m adparser` (PowerShell task: “Adlist-Parser”) or installed script `adlist-parser` → `adparser.cli:main`
-- Tests: Pytest with coverage (task: “Tests: Pytest (coverage)”, config in `pyproject.toml`)
+- Run: `python -m adparser` (PowerShell task: “Adlist-Parser”) or installed script `adlist-parser` → `adparser.cli:main`- `--remove-duplicates`: removes local entries in `data/blacklist.txt` / `data/whitelist.txt` that are covered by remote sources or by broader rules in the same file
+- `--check-conflicts`: detects and reports entries that appear in both `data/blacklist.txt` and `data/whitelist.txt` (exits after report, does not modify files)- Tests: Pytest with coverage (task: “Tests: Pytest (coverage)”, config in `pyproject.toml`)
 - Lint: Pylint report (task: “Lint: Pylint (report)”, output to `pylint-report.txt`)
 - Fast dev loop: set `data/adlists.json` and `data/whitelists.json` to `{ "lists": ["blacklist.txt"], "urls": [] }` etc. for sub-second runs
 - Source JSON keys accepted: `lists`, `urls`, `adlists`, `sources`; relative paths resolve against the JSON file’s location
