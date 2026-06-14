@@ -1,0 +1,5 @@
+cache/*.txt filter=lfs diff=lfs merge=lfs -text
+output/adlist.txt filter=lfs diff=lfs merge=lfs -text
+output/whitelist.txt filter=lfs diff=lfs merge=lfs -text
+data/blacklist.txt filter=lfs diff=lfs merge=lfs -text
+data/whitelist.txt filter=lfs diff=lfs merge=lfs -text

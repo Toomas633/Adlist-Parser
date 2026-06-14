@@ -1,9 +1,3 @@
-0.0.0.0 cdn.appround.biz
-0.0.0.0 cdn.download.sweetpacks.com
-0.0.0.0 cdn.insta.playbryte.com
-0.0.0.0 cdn.msdwnld.com
-0.0.0.0 cdn.mypcbackup.com
-0.0.0.0 inno.bisrv.com
-0.0.0.0 installer.betterinstaller.com
-0.0.0.0 nsis.bisrv.com
-0.0.0.0 tracking.opencandy.com.s3.amazonaws.com
+version https://git-lfs.github.com/spec/v1
+oid sha256:27603eec94a42abc35f6d61969d22fa6bdece4c5e5d41e8be0efd050cab6c2bd
+size 285

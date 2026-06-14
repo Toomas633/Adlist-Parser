@@ -1,5 +1,3 @@
-analytics.google.com
-sessions.bugsnag.com
-browser.sentry-cdn.com
-appmetrica.yandex.ru
-adservice.google.com
+version https://git-lfs.github.com/spec/v1
+oid sha256:71f3af7f1a94657e82cc3b8cc4761058e73d3728494664afec9987a11d520792
+size 112
