@@ -332,10 +332,8 @@ async def _run_post_processing(
         whitelist_sources,
     )
 
-    await to_thread(_write_with_header, ADLIST_OUTPUT, adlist_header, cleaned_adlist)
-    await to_thread(
-        _write_with_header, WHITELIST_OUTPUT, whitelist_header, cleaned_whitelist
-    )
+    await to_thread(write_output, ADLIST_OUTPUT, cleaned_adlist, adlist_header)
+    await to_thread(write_output, WHITELIST_OUTPUT, cleaned_whitelist, whitelist_header)
 
     return (
         len(cleaned_adlist),
@@ -353,10 +351,4 @@ def _read_non_comment_lines(path: str) -> list[str]:
         return [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 
-def _write_with_header(path: str, header: str, lines: list[str]) -> None:
-    """Write a header and lines to disk using LF line endings."""
-    with open(path, 'w', encoding='utf-8', newline='\n') as f:
-        f.write(header)
-        f.write('\n'.join(lines))
-        if lines:
-            f.write('\n')
+
