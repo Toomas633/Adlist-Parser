@@ -349,6 +349,3 @@ def _read_non_comment_lines(path: str) -> list[str]:
     """Return non-empty, non-comment lines from a file (stripped)."""
     with open(path, 'r', encoding='utf-8') as f:
         return [line.strip() for line in f if line.strip() and not line.startswith('#')]
-
-
-

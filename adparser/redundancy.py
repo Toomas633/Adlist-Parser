@@ -7,6 +7,7 @@ already covered by remote lists.
 from asyncio import to_thread
 from os import path
 from typing import Dict, Iterable, List, Optional, Set, Tuple
+from urllib.parse import urlparse
 
 from adparser.status import StatusSpinner
 
@@ -43,14 +44,16 @@ def _abp_key(entry: str) -> Optional[str]:
 
     if s.startswith('://'):
         s = s[3:]
-    if '://' in s:
-        s = s.split('://', 1)[-1]
-    if '/' in s:
-        s = s.split('/', 1)[0]
-    if '@' in s:
-        s = s.split('@')[-1]
-    if ':' in s:
-        s = s.split(':', 1)[0]
+    parsed = urlparse(s)
+    if parsed.scheme and parsed.netloc:
+        s = parsed.hostname or ''
+    else:
+        if '/' in s:
+            s = s.split('/', 1)[0]
+        if '@' in s:
+            s = s.split('@')[-1]
+        if ':' in s:
+            s = s.split(':', 1)[0]
     return s.strip('.').lower() if s else None
 
 

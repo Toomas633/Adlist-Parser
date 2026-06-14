@@ -1,4 +1,5 @@
 """Tests for redundancy analysis utilities in adparser.redundancy."""
+
 # pylint: disable=protected-access
 
 from asyncio import run, sleep
@@ -21,7 +22,7 @@ def test_abp_prefix_and_key_and_collect():
     assert redundancy._abp_prefix('plain') is None
     assert redundancy._abp_key(entry) == 'host'
     assert redundancy._abp_key('#@#||x') is None
-    assert 'example.com' in keys and 'allowed.example' in keys
+    assert keys.issuperset({'example.com', 'allowed.example'})
 
 
 def test_remote_union_and_iter_local_entries_and_ancestors():
@@ -122,6 +123,7 @@ def test_exclude_and_is_excluded_helpers(tmp_path):
 
 def test_generate_redundancy_report_async():
     """generate_redundancy_report() returns an empty list and updates spinner status."""
+
     class SpinnerStub:
         """Minimal stub with the same interface as StatusSpinner for tests."""
 

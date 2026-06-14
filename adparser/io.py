@@ -56,7 +56,7 @@ def _is_urlish(s: str) -> bool:
     parsed = parse.urlparse(s)
     if parsed.scheme in {"http", "https", "file"}:
         return True
-    return "://" in s
+    return len(parsed.scheme) > 1 and bool(parsed.netloc)
 
 
 def _looks_like_path(s: str) -> bool:

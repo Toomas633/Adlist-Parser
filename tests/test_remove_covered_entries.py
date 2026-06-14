@@ -87,15 +87,15 @@ def test_build_remote_index_wildcard_entry():
 def test_build_remote_index_plain_domain_canonical_only():
     """Plain domains go into remote_canonical but NOT remote_abp_domains."""
     rc, ra = _build_remote_index([(_url(), ["plain.com"])])
-    assert "plain.com" in rc
-    assert "plain.com" not in ra
+    assert rc.issuperset({"plain.com"})
+    assert ra.isdisjoint({"plain.com"})
 
 
 def test_build_remote_index_pihole_regex_canonicalized():
     """Pi-hole regex is canonicalized and indexed as an ABP rule."""
     rc, ra = _build_remote_index([(_url(), [r"(\.|^)rex\.com$"])])
     assert "||rex.com^" in rc
-    assert "rex.com" in ra
+    assert ra.issuperset({"rex.com"})
 
 
 _FNAME = "blacklist.txt"
@@ -114,7 +114,7 @@ def test_compute_covered_url_src_not_added_to_covered():
     results, failed, sources = _cc(["example.com"], [])
     with patch("adparser.duplicates._analyze_redundancy", return_value=([], {})):
         covered = _compute_covered(results, failed, sources, _FNAME)
-    assert "example.com" not in covered
+    assert covered.isdisjoint({"example.com"})
 
 
 def test_compute_covered_non_matching_local_skipped():
@@ -124,7 +124,7 @@ def test_compute_covered_non_matching_local_skipped():
     results = [(u, ["||b.example^"]), (other, ["b.example"])]
     with patch("adparser.duplicates._analyze_redundancy", return_value=([], {})):
         covered = _compute_covered(results, [], [u, other], _FNAME)
-    assert "b.example" not in covered
+    assert covered.isdisjoint({"b.example"})
 
 
 def test_compute_covered_canonical_remote_match():
@@ -140,7 +140,7 @@ def test_compute_covered_abp_parent_coverage():
     results, failed, sources = _cc(["||example.com^"], ["sub.example.com"])
     with patch("adparser.duplicates._analyze_redundancy", return_value=([], {})):
         covered = _compute_covered(results, failed, sources, _FNAME)
-    assert "sub.example.com" in covered
+    assert covered.issuperset({"sub.example.com"})
 
 
 def test_compute_covered_already_seeded_entry_skips_recheck():
@@ -151,7 +151,7 @@ def test_compute_covered_already_seeded_entry_skips_recheck():
         return_value=([], {_FNAME: ({"example.com"}, 1)}),
     ):
         covered = _compute_covered(results, failed, sources, _FNAME)
-    assert "example.com" in covered
+    assert covered.issuperset({"example.com"})
 
 
 def test_compute_covered_not_covered():
@@ -318,7 +318,7 @@ def test_process_list_full_pipeline(tmp_path: Path):
     assert isinstance(total, int)
     assert total >= 0
     remaining = file_path.read_text(encoding="utf-8").splitlines()
-    assert "kept.com" in remaining
+    assert remaining.count("kept.com") > 0
 
 
 def test_main_returns_zero():

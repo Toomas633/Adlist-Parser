@@ -204,7 +204,7 @@ def test_report_with_conflicts_prints_entries(tmp_path, monkeypatch, capsys):
     report_conflicts()
     out = capsys.readouterr().out
     assert "CONFLICT" in out
-    assert "shared.com" in out
+    assert any("shared.com" in ln for ln in out.splitlines())
 
 
 def test_report_singular_label(tmp_path, monkeypatch, capsys):
