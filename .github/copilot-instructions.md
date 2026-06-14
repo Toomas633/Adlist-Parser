@@ -1,6 +1,6 @@
 ## Copilot guide: Adlist-Parser (concise)
 
-Purpose: Merge 50+ adlists into two normalized outputs for DNS blockers (Pi-hole/AdGuard) using only the Python stdlib. Typical run: ~50–60s, ~1.6M entries.
+Purpose: Merge 50+ adlists into two normalized outputs for DNS blockers (Pi-hole/AdGuard) using only the Python stdlib. Typical run: ~50–60s, ~1.6M entries. Current version: **3.0.0**.
 
 Quick rules (TL;DR for AI changes)
 
@@ -9,6 +9,7 @@ Quick rules (TL;DR for AI changes)
 - Do push heavy CPU/IO off the event loop with `asyncio.to_thread()` and cap concurrency to ≤16 workers.
 - Do write LF-only files, keep deterministic case-insensitive sorting, and regenerate headers only in post-processing.
 - Do maintain Windows-safe path/URL handling in `io.py` and avoid breaking relative path resolution.
+- Do keep `cache/`, `output/`, and bulk list files in `data/` tracked via Git LFS (configured in `.gitattributes`); never remove or bypass the LFS tracking for those paths.
 - Don’t widen domain-matching regexes or IDN heuristics; keep `_maybe_extract_domain` and `DOMAIN_RE` conservative.
 - Don’t swap output formats or semantics (no element-hiding rules, ABP options stripped, `@@||` → whitelist).
 - Don’t remove the “merge with existing adlist” step; it’s required to preserve entries across transient source failures.
@@ -58,8 +59,12 @@ Quick rules (TL;DR for AI changes)
 
 ### Conventions & workflows
 
-- Run: `python -m adparser` (PowerShell task: “Adlist-Parser”) or installed script `adlist-parser` → `adparser.cli:main`- `--remove-duplicates`: removes local entries in `data/blacklist.txt` / `data/whitelist.txt` that are covered by remote sources or by broader rules in the same file
-- `--check-conflicts`: detects and reports entries that appear in both `data/blacklist.txt` and `data/whitelist.txt` (exits after report, does not modify files)- Tests: Pytest with coverage (task: “Tests: Pytest (coverage)”, config in `pyproject.toml`)
+- Run: `python -m adparser` (PowerShell task: "Adlist-Parser") or installed script `adlist-parser` → `adparser.cli:main`
+- Git LFS: `cache/`, `output/`, and bulk list files in `data/` are tracked via Git LFS. Run `git lfs install` once after cloning.
+- Python 3.14+: `cli.py` uses `asyncio.run()` only — `asyncio.get_event_loop()` (removed in 3.14) is not used.
+- `--remove-duplicates`: removes local entries in `data/blacklist.txt` / `data/whitelist.txt` that are covered by remote sources or by broader rules in the same file
+- `--check-conflicts`: detects and reports entries that appear in both `data/blacklist.txt` and `data/whitelist.txt` (exits after report, does not modify files)
+- Tests: Pytest with coverage (task: "Tests: Pytest (coverage)", config in `pyproject.toml`)
 - Lint: Pylint report (task: “Lint: Pylint (report)”, output to `pylint-report.txt`)
 - Fast dev loop: set `data/adlists.json` and `data/whitelists.json` to `{ "lists": ["blacklist.txt"], "urls": [] }` etc. for sub-second runs
 - Source JSON keys accepted: `lists`, `urls`, `adlists`, `sources`; relative paths resolve against the JSON file’s location

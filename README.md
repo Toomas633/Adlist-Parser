@@ -21,10 +21,10 @@ Fetches and merges 50+ community adlists into two normalized output files for DN
 
 Subscribe to these raw URLs directly in your DNS blocker — no cloning or running anything required:
 
-| File | Raw URL | Description |
-|---|---|---|
-| Adlist | `https://raw.githubusercontent.com/Toomas633/Adlist-Parser/main/output/adlist.txt` | ~1.6M blocklist entries |
-| Whitelist | `https://raw.githubusercontent.com/Toomas633/Adlist-Parser/main/output/whitelist.txt` | ~2K allowlist entries |
+| File      | Raw URL                                                                                                  | Description             |
+| --------- | -------------------------------------------------------------------------------------------------------- | ----------------------- |
+| Adlist    | `https://media.githubusercontent.com/media/Toomas633/Adlist-Parser/refs/heads/main/output/adlist.txt`    | ~1.6M blocklist entries |
+| Whitelist | `https://media.githubusercontent.com/media/Toomas633/Adlist-Parser/refs/heads/main/output/whitelist.txt` | ~2K allowlist entries   |
 
 ## Using with Pi-hole
 
@@ -105,6 +105,8 @@ The output files are regenerated automatically by a GitHub Actions workflow on a
 ## Contributing
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for architecture details, module contracts, testing, linting, VS Code tasks, and contribution conventions.
+
+> **Git LFS:** `cache/`, `output/`, and bulk list files in `data/` are tracked via Git LFS. Run `git lfs install` then `git lfs pull` after cloning if you need those files locally.
 
 ## License
 

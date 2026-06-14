@@ -241,13 +241,15 @@ All tasks target Windows PowerShell.
 
 The `.github/workflows/update-lists.yml` workflow runs the parser and commits updated outputs automatically:
 
-| Trigger | Condition |
-|---|---|
+| Trigger          | Condition                                              |
+| ---------------- | ------------------------------------------------------ |
 | Monthly schedule | `cron: 0 3 1 * *` (03:00 UTC on the 1st of each month) |
-| Push to `main` | Only when files under `data/` are changed |
-| Manual dispatch | `workflow_dispatch` (run from the Actions tab) |
+| Push to `main`   | Only when files under `data/` are changed              |
+| Manual dispatch  | `workflow_dispatch` (run from the Actions tab)         |
 
 The job is skipped when the push actor is `github-actions[bot]` to prevent the bot's own commits from triggering a new run.
+
+The workflow uses Git LFS to store and retrieve large files in `cache/`, `output/`, and `data/`. Git LFS must be enabled on the runner (installed by default on GitHub-hosted runners).
 
 ---
 
@@ -297,6 +299,10 @@ This exercises the full pipeline (status UI, normalization, post-processing, sep
 ```pwsh
 git clone https://github.com/Toomas633/Adlist-Parser.git
 cd Adlist-Parser
+
+# Install Git LFS (once per machine) and pull LFS objects
+git lfs install
+git lfs pull
 
 # Editable install (adds the adlist-parser script and dev extras)
 python -m pip install -e ".[dev]"
