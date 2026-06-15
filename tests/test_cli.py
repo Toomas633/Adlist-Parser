@@ -59,7 +59,7 @@ allow-plain.example
     assert "Total entries:" in wl_out
     assert "||ads.example^" in ad_out.splitlines()
     assert "||regex.keep^" in ad_out.splitlines()
-    assert "example.com" in ad_out.splitlines()
+    assert any(ln == "example.com" for ln in ad_out.splitlines())
     assert "@@||allow.example^" in wl_out.splitlines()
     assert "allow-plain.example" in wl_out.splitlines()
 
@@ -79,7 +79,9 @@ def test_cli_check_conflicts_argument(tmp_path, monkeypatch, capsys):
     assert code == 0
     out = capsys.readouterr().out
     assert "CONFLICT" in out
-    assert any("conflict.com" in ln for ln in out.splitlines())
+    assert any(
+        token == "conflict.com" for ln in out.splitlines() for token in ln.split()
+    )
 
 
 def test_cli_check_conflicts_no_conflicts(tmp_path, monkeypatch, capsys):
