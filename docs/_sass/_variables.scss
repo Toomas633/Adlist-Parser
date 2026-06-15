@@ -1,0 +1,39 @@
+:root {
+  --bg:         #f4f3ff;
+  --bg-surface: #ffffff;
+  --bg-card:    rgba(255, 255, 255, 0.75);
+  --text:       #18172b;
+  --text-muted: #6b6a8a;
+  --accent:       #7c3aed;
+  --accent-2:     #db2777;
+  --accent-light: #a78bfa;
+  --accent-glow:        rgba(124, 58, 237, 0.20);
+  --accent-glow-strong: rgba(124, 58, 237, 0.45);
+  --border:       rgba(124, 58, 237, 0.18);
+  --border-hover: rgba(124, 58, 237, 0.45);
+  --hero-bg:       linear-gradient(140deg, #f4f3ff 0%, #ede9fe 55%, #fce7f3 100%);
+  --gradient-text: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  --shadow:       0 4px 24px rgba(124, 58, 237, 0.10);
+  --shadow-hover: 0 8px 40px rgba(124, 58, 237, 0.20);
+  --sparkle-color: #7c3aed;
+}
+
+[data-theme="dark"] {
+  --bg:         #07071a;
+  --bg-surface: #0d0c22;
+  --bg-card:    rgba(13, 12, 34, 0.80);
+  --text:       #e8e7f8;
+  --text-muted: #9d9bb8;
+  --accent:       #a78bfa;
+  --accent-2:     #f472b6;
+  --accent-light: #c4b5fd;
+  --accent-glow:        rgba(167, 139, 250, 0.28);
+  --accent-glow-strong: rgba(167, 139, 250, 0.55);
+  --border:       rgba(167, 139, 250, 0.18);
+  --border-hover: rgba(167, 139, 250, 0.45);
+  --hero-bg:       linear-gradient(140deg, #07071a 0%, #130e30 55%, #1e0825 100%);
+  --gradient-text: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+  --shadow:       0 4px 24px rgba(0, 0, 0, 0.50);
+  --shadow-hover: 0 8px 40px rgba(167, 139, 250, 0.25);
+  --sparkle-color: #a78bfa;
+}

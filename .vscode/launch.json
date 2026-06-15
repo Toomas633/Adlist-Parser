@@ -52,6 +52,13 @@
       "cwd": "${workspaceFolder}",
       "args": ["adparser", "tests"],
       "justMyCode": false
+    },
+    {
+      "name": "Jekyll: Serve Docs",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "bundle exec jekyll serve --livereload --config _config.yml,_config_dev.yml",
+      "cwd": "${workspaceFolder}/docs"
     }
   ]
 }

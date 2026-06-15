@@ -28,14 +28,15 @@ Subscribe to these raw URLs directly in your DNS blocker — no cloning or runni
 
 ## Using with Pi-hole
 
-1. Open the Pi-hole admin panel → **Group Management → Adlists**
-2. Paste the adlist URL and click **Add**
+1. Open the Pi-hole admin panel → **Lists**
+2. Paste the adlist URL and click **Add blocklist**
 3. Go to **Tools → Update Gravity** to pull the new entries
 
-To add the whitelist:
+To add the allowlist:
 
-1. Go to **Whitelist** and add the whitelist URL, or
-2. Import it via the CLI: `pihole -w --regex-file <path>`
+1. On the same **Lists** page, paste the whitelist URL
+2. Click **Add allowlist**
+3. Go to **Tools → Update Gravity** to apply the allowlist
 
 ## Using with AdGuard Home
 

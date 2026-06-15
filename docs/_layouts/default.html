@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title | default: site.title }}</title>
+    <meta
+      name="description"
+      content="{{ page.description | default: site.description }}"
+    />
+    <meta name="author" content="{{ site.author }}" />
+    <meta
+      property="og:title"
+      content="{{ page.title | default: site.title }}"
+    />
+    <meta
+      property="og:description"
+      content="{{ page.description | default: site.description }}"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="{{ site.url }}{{ site.baseurl }}{{ page.url }}"
+    />
+    <link
+      rel="canonical"
+      href="{{ site.url }}{{ site.baseurl }}{{ page.url }}"
+    />
+    <script>
+      (function () {
+        var k = "adlist-theme";
+        var t =
+          localStorage.getItem(k) ||
+          (globalThis.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ '/assets/favicon.svg' | relative_url }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ '/assets/fonts/fonts.css' | relative_url }}"
+    />
+    <script
+      src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"
+      integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+  </head>
+  <body>
+    <button
+      class="theme-toggle"
+      id="themeToggle"
+      aria-label="Toggle colour theme"
+    >
+      <i class="ph ph-sun" id="themeIcon"></i>
+    </button>
+    {{ content }}
+    <output class="toast" id="toast" aria-live="polite">
+      <i class="ph ph-check-circle"></i>
+      <span class="toast-msg">Copied!</span>
+    </output>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  </body>
+</html>

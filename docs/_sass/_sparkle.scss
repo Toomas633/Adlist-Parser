@@ -1,0 +1,46 @@
+@keyframes sparkle-twinkle {
+  0%, 100% { opacity: 0;   transform: scale(0.2); }
+  50%       { opacity: 1;   transform: scale(1);   }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1;    }
+  50%       { opacity: 0.60; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0);    }
+  50%       { transform: translateX(-50%) translateY(10px); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0);    }
+}
+
+.sparkle-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--sparkle-color);
+  animation: sparkle-twinkle var(--dur, 2s) ease-in-out infinite var(--del, 0s);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkle-dot { display: none !important; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+  }
+}

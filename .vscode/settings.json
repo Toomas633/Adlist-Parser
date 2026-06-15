@@ -32,5 +32,9 @@
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
-  "python.analysis.extraPaths": ["${workspaceFolder}/scripts"]
+  "python.analysis.extraPaths": ["${workspaceFolder}/scripts"],
+
+  // Disable VS Code's built-in SCSS validator — it doesn't support @use/@forward
+  // (Sass compilation is handled by Jekyll/sass-embedded which supports them correctly)
+  "scss.validate": false
 }

@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Jekyll: Serve (live reload)",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload --config _config.yml,_config_dev.yml",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": {
+        "owner": "jekyll",
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "line": 1,
+            "message": 1
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Auto-regeneration",
+          "endsPattern": "Server running"
+        }
+      }
+    }
+  ]
+}

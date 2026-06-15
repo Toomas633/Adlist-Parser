@@ -1,0 +1,13 @@
+title: "Adlist-Parser"
+description: "Fetch, normalize and merge 50+ community adlists into domain-only outputs for Pi-hole, AdGuard Home, and other DNS blockers."
+author: "Toomas633"
+version: "3.0.0"
+
+url: "https://toomas633.github.io"
+baseurl: "/Adlist-Parser"
+
+homepage_url: "https://toomas633.com/"
+github_url: "https://github.com/Toomas633/Adlist-Parser"
+adlist_url: "https://media.githubusercontent.com/media/Toomas633/Adlist-Parser/refs/heads/main/output/adlist.txt"
+whitelist_url: "https://media.githubusercontent.com/media/Toomas633/Adlist-Parser/refs/heads/main/output/whitelist.txt"
+sonar_badge: "https://sonarcloud.io/api/project_badges/quality_gate?project=Toomas633_Adlist-Parser"
